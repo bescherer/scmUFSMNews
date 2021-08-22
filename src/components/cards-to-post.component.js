@@ -1,13 +1,16 @@
 /*react*/
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Linking } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 /* react native paper */
-import { Card, Button } from 'react-native-paper';
+import { Card, Button, IconButton } from 'react-native-paper';
 
 /*styles*/
 import { StyledCard } from './cards-to-post.styles';
-import UFSM from '../assets/ufsm.jpg'
+import { Link } from '@react-navigation/native';
 
 
 const theme = {
@@ -23,14 +26,32 @@ const theme = {
 }
 
 const Item = (props) => { //show the content from post
-   
+    
+    const image = props.item.image?  props.item.image.thumbnail.contentUrl : 'https://s1.static.brasilescola.uol.com.br/be/vestibular/-59bbd4105e92d.jpg';
+
+    const saveData = async () => {
+        try {
+            if (props.item) {
+                await AsyncStorage.removeItem(JSON.stringify(props.item.name)); //remove current data so it doesn't have duplication
+                await AsyncStorage.setItem(JSON.stringify(props.item.name), JSON.stringify(props.item));
+            } else {
+                            await AsyncStorage.setItem(JSON.stringify(props.item.name), JSON.stringify(props.item));
+
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        alert("Save!");
+    }
+       
     return(
         <>
         <StyledCard>
         <Card key={props.item ? props.item.url : null} style={theme.card}> 
-            <Card.Cover source={{uri: props.item.image?  props.item.image.thumbnail.contentUrl : UFSM }} />
+            <Card.Cover source={{uri : image}} />
             <Card.Actions>
-                <Button style={theme.button} theme={theme} >{props.item.name}</Button>
+                <Button style={theme.button} theme={theme} onPress={() => Linking.openURL(props.item.url)} style={{width:'88%'}} >{props.item.name}</Button>
+                <IconButton  icon="heart-outline" onPress={() => {saveData()}}/>             
             </Card.Actions>
         </Card>
         </StyledCard>  
@@ -38,7 +59,7 @@ const Item = (props) => { //show the content from post
 
    );
 };
-  
+
 
 const CardsToPosts = (props) => {
 
@@ -53,12 +74,13 @@ const CardsToPosts = (props) => {
                 : null}
             </>
         );
+
     };
 
     return (    
-        <>  
-            <FlatList data={DATA} renderItem={renderItem} keyExtractor={(item) => item.ampUrl} onEndReachedThreshold={0.01} onEndReached={props.loadMorePosts} /> 
-        </>
+
+        <FlatList data={DATA} renderItem={renderItem} keyExtractor={(item) => item.url} disableVirtualization={false}/> 
+
     );
 }
 

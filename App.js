@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 /* Pages to navigation */ 
 import Home from './src/pages/home/home';
-import Liked from './src/pages/liked.component';
+import Liked from './src/pages/liked/liked.component';
 
 const theme = {
   ...DefaultTheme,

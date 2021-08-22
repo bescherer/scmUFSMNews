@@ -2,6 +2,8 @@
 import React from 'react';
 
 /*async-storage*/
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 /* react native paper */
 import { Card, Paragraph, IconButton } from 'react-native-paper';
@@ -27,6 +29,28 @@ const theme = {
 
 
 const Liked = () => {
+
+    useEffect(() => {
+        
+        const getAllKeysFromAsync = async () => {
+        try {
+            return await AsyncStorage.getAllKeys();
+        } catch(error) {
+          console.log(err)
+        }
+      }
+
+        const getOnePostFromAsync = async (key) => {
+                try {
+                    return await AsyncStorage.getItem(key);
+
+                } catch(err) {
+                console.log(err)
+                }
+        }
+        }, [input])
+
+    
 
 
     return (
