@@ -1,35 +1,49 @@
-import React, { Component } from 'react';
-import {ImageBackground, Text, StyleSheet,
- View, TouchableOpacity,
-Platform, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {Text, StyleSheet, View} from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Home from '../home/home';
-
 const Login = (props) => {
-    const [email, setEmail] = React.useState();
-    const [senha, setSenha] = React.useState();
-    
-    const onLogin = async () => {
-        const getAllKeysUser = async() => {
-            try{
-                return await AsyncStorage.getAllKeys();
-            }catch(err){
-                console.log(err);
+    const [user, setUser] = useState({
+        email: '',
+        password: ''
+    })
+    const [login, setLogin] = useState(false)
+
+        useEffect(() => {
+            const getAllKeysUser = async() => {
+                try{
+                    return await AsyncStorage.getAllKeys();
+                }catch(err){
+                    console.log(err);
+                }
             }
-        }
-        const getOneUser = async(key) => {
-            try{
-                return await AsyncStorage.getItem(key);
-            }catch(err){
-                console.log(err);
+            const getOneUser = async(key) => {
+                try{
+                    return await AsyncStorage.getItem(key);
+                }catch(err){
+                    console.log(err);
+                }
             }
-        }
         
-    }
+        getAllKeysUser()
+            .then((res) => {
+                if(res) {
+                    console.log(res)
+                    res.map((res1) => {
+                        getOneUser(res1)
+                            .then((resOneUser) => {
+                                console.log(resOneUser)
+                            })
+                    });
+                }
+            })
+    
+        }, [login])
+
+    
     return(
+
         <View style={styles.container} >
            <Text style={styles.textTitle} >Faça seu login!</Text>
            <View style={{ marginTop: 20 }} >
@@ -38,15 +52,15 @@ const Login = (props) => {
            <View style={styles.containerInputs} >
                <TextInput 
                    style={styles.arround}
-                   value={email}
-                   onChangeText={() => setEmail({ email })}
+                   value={user.email}
+                   onChangeText={query => setUser(query)}
                    label='e-mail'
                    autoCapitalize='none'
                    theme={{ colors: { primary: '#ccc', text: '#ccc', placeholder: '#ccc' } }}
                    underlineColor="#1E1C24"/>
                <TextInput
-                   value={senha}
-                   onChangeText={() => setSenha({ senha })}
+                   value={user.password}
+                   onChangeText={query => setUser(query)}
                    label='senha'
                    autoCapitalize='none'
                    theme={{ colors: { primary: '#ccc', text: '#ccc', placeholder: '#ccc' } }}
@@ -56,7 +70,7 @@ const Login = (props) => {
            <View style={styles.buttons} >
                <Button
                    style={styles.button}
-                   onPress={onLogin}
+                   onPress={() => setLogin(true)}
                    color='#191720'
                >Entrar</Button>
            </View>

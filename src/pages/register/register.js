@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {ImageBackground, Text, StyleSheet,
  View, TouchableOpacity,
 Platform, Alert } from 'react-native';
@@ -9,20 +9,24 @@ import Login from '../login/login';
 
 
 const Register = (props) => {
-        const [name, setName] = React.useState();
-        const [email, setEmail] = React.useState();
-        const [senha, setSenha] = React.useState();
+
+
+        const [user, setUser] = useState({
+            name: '',
+            email: '',
+            password: ''
+        })
 
         const saveUser = async () => {
             try{
-                const usuario = {name: name, email: email, senha: senha};
-                await AsyncStorage.setItem('usuario', JSON.stringify(usuario));
+                await AsyncStorage.setItem(JSON.stringify(user.email), JSON.stringify(user));
                 Alert.alert('Dados salvos com sucesso');
                 props.navigation.navigate('Login');
             }catch(error){
                 console.log(error);
             }
         }
+
         return (
             <View style={styles.container}>
                <Text style={styles.textTitle}>Crie seu registro!</Text>
@@ -31,26 +35,23 @@ const Register = (props) => {
                </View>
                <View style={styles.containerInputs}>
                    <TextInput
-                       value={name}
-                       onChangeText={() => setName({name})}
+                       value={user.name}
+                       onChangeText={name => setUser({...user, name:name })}
                        label='Name'
-                       autoCapitalize='none'
                        theme={{colors: {primary: '#ccc', text: '#ccc', placeholder: '#ccc'}}}
                        underlineColor='#1E1C24'
                        style={styles.arround}/>
                    <TextInput
-                       value={email}
-                       onChangeText={() => setEmail({email})}
+                       value={user.email}
+                       onChangeText={email => setUser({...user, email: email})}
                        label='E-mail'
-                       autoCapitalize='none'
                        theme={{colors: {primary: '#ccc', text: '#ccc', placeholder: '#ccc' }}}
                        underlineColor='#1E1C24'
                        style={styles.arround}/>
                    <TextInput
-                       value={senha}
-                       onChangeText={() => setSenha({senha})}
+                       value={user.password}
+                       onChangeText={senha => setUser({...user, password:senha})}
                        label='senha'
-                       autoCapitalize='none'
                        theme={{colors: {primary: '#ccc', text: '#ccc', placeholder: '#ccc' }}}
                        underlineColor='#1E1C24'
                        style={styles.arround}/>

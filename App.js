@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 /* Pages to navigation */ 
 import Home from './src/pages/home/home';
-import Liked from './src/pages/liked/liked.component';
+import Liked from './src/pages/liked/liked';
 import Login from './src/pages/login/login';
 import Register from './src/pages/register/register';
 
@@ -116,9 +116,9 @@ export default function App() {
                     inactiveTintColor: '#777',
                 }}
             >
+                <Tab.Screen name="Login" component={LoginScreen} />
                 <Tab.Screen name="Home" component={HomeScreen}/>
                 <Tab.Screen name="Liked" component={LikedScreen} />
-                <Tab.Screen name="Login" component={LoginScreen} />
                 <Tab.Screen name="Register" component={RegisterScreen} />
             </Tab.Navigator>
         </NavigationContainer>
