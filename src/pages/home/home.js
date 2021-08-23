@@ -29,12 +29,8 @@ const theme = {
 
 const Home = (props) => {
     const [data, setData] = useState("");
-    const [news, setNews] = useState([]);
     const [allNews, setAllNews] = useState([]);
-    const [page, setPage] = useState(0);
-    const [newsPerPage, setNewsPerPage] = useState(3);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filteredPosts, setFilteredPosts] = useState([0])
 
     const isFocused = useIsFocused();
 
@@ -48,43 +44,15 @@ const Home = (props) => {
     
         callNewsFromApi(data).
             then(res => {
-                //console.log(res.length)
-                //res.length > 5 ? setNews(res.slice(0, newsPerPage)) : setNews(res);
-                //console.log(res)
                 setAllNews(res);
             })
-
-           //console.log(data, "aqqu")
     }, [data]);
 
-
-
-    //console.log(allNews)
-
-    const loadMorePosts = () => { 
-        const nextPage = page + newsPerPage;
-        const nextPosts = allNews.slice(nextPage, nextPage + newsPerPage);
-        news.push(...nextPosts);
     
-        setNews(news);
-        setPage(nextPage);
-      
-    };
+    const onChangeSearch = (query) => setSearchQuery(query);
 
-    //console.log(news)
+    const doSearch = () => setData(searchQuery);
 
-    const onChangeSearch = (query) => {
-       // console.log(query)
-        setSearchQuery(query);
-
-    }
-    //console.log(searchQuery)
-
-    const doSearch = () => {
-       console.log(searchQuery)
-        setData(searchQuery);
-        
-    }
 
     return (
         <>

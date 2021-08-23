@@ -12,8 +12,22 @@ const Login = (props) => {
     const [email, setEmail] = React.useState();
     const [senha, setSenha] = React.useState();
     
-    const onLogin = () => {
-        console.log("Teste");
+    const onLogin = async () => {
+        const getAllKeysUser = async() => {
+            try{
+                return await AsyncStorage.getAllKeys();
+            }catch(err){
+                console.log(err);
+            }
+        }
+        const getOneUser = async(key) => {
+            try{
+                return await AsyncStorage.getItem(key);
+            }catch(err){
+                console.log(err);
+            }
+        }
+        
     }
     return(
         <View style={styles.container} >
