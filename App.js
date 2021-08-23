@@ -15,6 +15,8 @@ const Tab = createBottomTabNavigator();
 /* Pages to navigation */ 
 import Home from './src/pages/home/home';
 import Liked from './src/pages/liked/liked.component';
+import Login from './src/pages/login/login';
+import Register from './src/pages/register/register';
 
 const theme = {
   ...DefaultTheme,
@@ -56,7 +58,37 @@ export const LikedScreen = ({navigation}) => {
         </Stack.Navigator>
     );
 }
+export const LoginScreen = ({navigation}) => {
+    return (
+        <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={Login}
+                          options={{
+                            title: 'NewsUFSM',
+                            headerStyle: {
+                              backgroundColor: '#004AAD',
+                            },
+                            headerTintColor: '#fff',
+                          }}
+            />
+        </Stack.Navigator>
+    );
+}
 
+export const RegisterScreen = ({navigation}) => {
+    return (
+        <Stack.Navigator initialRouteName="Register">
+            <Stack.Screen name="Register" component={Register}
+                          options={{
+                            title: 'NewsUFSM',
+                            headerStyle: {
+                              backgroundColor: '#004AAD',
+                            },
+                            headerTintColor: '#fff',
+                          }}
+            />
+        </Stack.Navigator>
+    );
+}
 export default function App() {
     return (
         <NavigationContainer initialRouteName="Home" theme={theme}> 
@@ -86,6 +118,8 @@ export default function App() {
             >
                 <Tab.Screen name="Home" component={HomeScreen}/>
                 <Tab.Screen name="Liked" component={LikedScreen} />
+                <Tab.Screen name="Login" component={LoginScreen} />
+                <Tab.Screen name="Register" component={RegisterScreen} />
             </Tab.Navigator>
         </NavigationContainer>
     );
