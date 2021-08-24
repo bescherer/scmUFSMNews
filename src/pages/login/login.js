@@ -39,6 +39,7 @@ const Login = (props) => {
                     });
                 }
             })
+            console.log("aaaaa", user.email, user.password)
             login ? props.navigation.navigate('Home') : null;
         }, [login])
 
@@ -54,14 +55,14 @@ const Login = (props) => {
                <TextInput 
                    style={styles.arround}
                    value={user.email}
-                   onChangeText={query => setUser(query)}
+                   onChangeText={query => setUser({...user, email: query})}
                    label='e-mail'
                    autoCapitalize='none'
                    theme={{ colors: { primary: '#ccc', text: '#ccc', placeholder: '#ccc' } }}
                    underlineColor="#1E1C24"/>
                <TextInput
                    value={user.password}
-                   onChangeText={query => setUser(query)}
+                   onChangeText={query => setUser({...user, password: query})}
                    label='senha'
                    autoCapitalize='none'
                    theme={{ colors: { primary: '#ccc', text: '#ccc', placeholder: '#ccc' } }}
