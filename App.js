@@ -28,8 +28,8 @@ const theme = {
 
 export const HomeScreen = ({navigation}) => {
     return (
-        <Stack.Navigator initialRouteName="NewsUFSM">
-            <Stack.Screen name="NewsUFSM" component={Home}
+        <Tab.Navigator initialRouteName="NewsUFSM">
+            <Tab.Screen name="NewsUFSM" component={Home}
                           options={{
                             title: 'NewsUFSM',
                             headerStyle: {
@@ -38,89 +38,19 @@ export const HomeScreen = ({navigation}) => {
                             headerTintColor: '#fff',
                           }}
               />
-        </Stack.Navigator>
+              <Tab.Screen name="Liked" component={Liked}/>
+        </Tab.Navigator>
     );
 }
 
-
-export const LikedScreen = ({navigation}) => {
-    return (
-        <Stack.Navigator initialRouteName="Liked">
-            <Stack.Screen name="Liked" component={Liked}
-                          options={{
-                            title: 'NewsUFSM',
-                            headerStyle: {
-                              backgroundColor: '#004AAD',
-                            },
-                            headerTintColor: '#fff',
-                          }}
-            />
-        </Stack.Navigator>
-    );
-}
-export const LoginScreen = ({navigation}) => {
-    return (
-        <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={Login}
-                          options={{
-                            title: 'NewsUFSM',
-                            headerStyle: {
-                              backgroundColor: '#004AAD',
-                            },
-                            headerTintColor: '#fff',
-                          }}
-            />
-        </Stack.Navigator>
-    );
-}
-
-export const RegisterScreen = ({navigation}) => {
-    return (
-        <Stack.Navigator initialRouteName="Register">
-            <Stack.Screen name="Register" component={Register}
-                          options={{
-                            title: 'NewsUFSM',
-                            headerStyle: {
-                              backgroundColor: '#004AAD',
-                            },
-                            headerTintColor: '#fff',
-                          }}
-            />
-        </Stack.Navigator>
-    );
-}
 export default function App() {
     return (
-        <NavigationContainer initialRouteName="Home" theme={theme}> 
-            <Tab.Navigator 
-                screenOptions={({ route }) => ({
-                    tabBarIcon: ({ color, size }) => { //default values
-                        let iconName;
-
-                        switch (route.name) {
-                            case 'Home':
-                                iconName = 'home';
-                                break;
-                            case 'Liked':
-                                iconName = 'heart';
-                                break;
-                            default:
-                                iconName = 'circle';
-                                break;
-                        }
-                        return <Icon name={iconName} size={size} color={color} />;
-                    },
-                })}
-                    tabBarOptions={{
-                    activeTintColor: '#004AAD',
-                    inactiveTintColor: '#777',
-                }}
-            >
-                <Tab.Screen name="Login" component={LoginScreen} />
-                <Tab.Screen name="Home" component={HomeScreen}/>
-                <Tab.Screen name="Liked" component={LikedScreen} />
-                <Tab.Screen name="Register" component={RegisterScreen} />
-            </Tab.Navigator>
+        <NavigationContainer initialRouteName="Login" theme={theme}> 
+            <Stack.Navigator>
+                <Stack.Screen name="Login" component={Login} /> 
+                <Stack.Screen name="Register" component={Register}/>
+                <Stack.Screen name="Home" component={HomeScreen} />
+            </Stack.Navigator>
         </NavigationContainer>
     );
 }

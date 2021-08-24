@@ -20,7 +20,7 @@ const Register = (props) => {
         const saveUser = async () => {
             try{
                 await AsyncStorage.setItem(JSON.stringify(user.email), JSON.stringify(user));
-                Alert.alert('Dados salvos com sucesso');
+                alert('Dados salvos com sucesso');
                 props.navigation.navigate('Login');
             }catch(error){
                 console.log(error);

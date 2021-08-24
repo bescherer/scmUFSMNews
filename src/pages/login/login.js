@@ -8,6 +8,7 @@ const Login = (props) => {
         email: '',
         password: ''
     })
+
     const [login, setLogin] = useState(false)
 
         useEffect(() => {
@@ -38,7 +39,7 @@ const Login = (props) => {
                     });
                 }
             })
-    
+            login ? props.navigation.navigate('Home') : null;
         }, [login])
 
     
@@ -70,10 +71,11 @@ const Login = (props) => {
            <View style={styles.buttons} >
                <Button
                    style={styles.button}
-                   onPress={() => setLogin(true)}
+                   onPress={() => setLogin(!login)}
                    color='#191720'
                >Entrar</Button>
            </View>
+           <Button onPress={() =>{ props.navigation.navigate('Register')}}>Register</Button>
        </View>
     );
 }
