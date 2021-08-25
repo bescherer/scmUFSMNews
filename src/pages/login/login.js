@@ -4,13 +4,12 @@ import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = (props) => {
+
     const [user, setUser] = useState({
         email: '',
         password: ''
     })
-
     const [login, setLogin] = useState(false)
-    console.log(user)
 
         useEffect(() => {
             
@@ -24,16 +23,15 @@ const Login = (props) => {
 
             getOneUser(user.email)
                 .then((resOneUser) => {
-                    console.log(resOneUser)
                     if (resOneUser) {
                         const resToObj = JSON.parse(resOneUser); 
                         if (resToObj.password === user.password) {
-                            props.navigation.navigate('Home')
+                            props.navigation.navigate('News')
                         } else {
                             alert('Email ou senha inválidos')
                         }
                     } else {
-                        alert('Usuário não encontrado')
+                       user.email !== '' ? alert('Usuário não encontrado') : null
                     }
                 })
    

@@ -16,56 +16,53 @@ const Liked = ({navigation}) => {
     const [postsFromAsync, setPostsFromAsync] = useState([]);
     const [liked, setLiked] = useState(true)
     const isFocused = useIsFocused();
-    const [change, setChange] = useState(true)
+    const [change, setChange] = useState(false)
 
     useEffect(() => {
         
-        const getAllKeysFromAsync = () => {
+        const getAllKeysFromAsync = async () => {
             try {
-                return AsyncStorage.getAllKeys();
+                return await AsyncStorage.getAllKeys();
                 
             } catch(error) {
             console.log(err)
             }
         }
 
-        const getOnePostFromAsync = (key) => {
+        const getOnePostFromAsync = async (key) => {
             try {
-                return AsyncStorage.getItem(key);
+                return await AsyncStorage.getItem(key);
 
             } catch(err) {
             console.log(err)
             }
         }
-        
-        getAllKeysFromAsync()
-            .then(resK => {
-                const obj = [{...postsFromAsync}];
-                    if(resK) {
-                        console.log(resK)
-                        resK.map((res) => {
-                        getOnePostFromAsync(res)
-                            .then(resP => {
-                                console.log(resP)
-                                const resToObj = JSON.parse(resP);
-                                resP.includes("http") ? obj.push({...resToObj})  : null;
+        if(isFocused === false) {
+            getAllKeysFromAsync()
+                .then(resK => {
+                    const obj = [];
+                        if(resK) {
+                            resK.map((res) => {
+                            const resq = JSON.parse(res)
+                            getOnePostFromAsync(res)
+                                .then(resP => {
+                                    const resToObj = JSON.parse(resP);
+                                    resq.includes('http') ? obj.push({...resToObj})  : null;
+                                })
+                                .catch(err => console.log(err));
                             })
-                            .catch(err => console.log(err));
-                        })
-                    }   
-                setPostsFromAsync(obj);
-            })
-            .catch(err => console.log(err));
-            console.log(change)
-
+                        }   
+                    setPostsFromAsync(obj);
+                })
+                .catch(err => console.log(err));
+        } else {
+        }
     }, [isFocused])
-
-    console.log(postsFromAsync)
 
     useEffect(() => {
-        isFocused === false ? setChange(!change) : null;
-        console.log(isFocused)
+        isFocused === true ? setChange(!change) : null;
     }, [isFocused])
+
 
     return (
         <>

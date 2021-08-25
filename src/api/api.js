@@ -13,7 +13,6 @@ export function getNews(data) {
       };
       
       return axios.request(options).then(function (response) {
-          console.log(response.data.articles);
           return response.data.articles
       }).catch(function (error) {
           console.error(error);

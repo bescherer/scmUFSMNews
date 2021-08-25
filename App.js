@@ -28,10 +28,33 @@ const theme = {
 
 export const HomeScreen = ({navigation}) => {
     return (
-        <Tab.Navigator initialRouteName="NewsUFSM">
-            <Tab.Screen name="NewsUFSM" component={Home}
+        <Tab.Navigator initialRouteName="NewsUFSM" 
+                screenOptions={({ route }) => ({
+                    tabBarIcon: ({ color, size }) => { //default values
+                        let iconName;
+
+                        switch (route.name) {
+                            case 'News':
+                                iconName = 'home';
+                                break;
+                            case 'Liked':
+                                iconName = 'heart';
+                                break;
+                            default:
+                                iconName = 'circle';
+                                break;
+                        }
+                        return <Icon name={iconName} size={size} color={color} />;
+                    },
+                    })}
+                        tabBarOptions={{
+                        activeTintColor: '#004AAD',
+                        inactiveTintColor: '#777',
+                    }}
+                    >
+            <Tab.Screen name="News" component={Home}
                           options={{
-                            title: 'NewsUFSM',
+                            title: 'News',
                             headerStyle: {
                               backgroundColor: '#004AAD',
                             },
@@ -48,11 +71,14 @@ export const HomeScreen = ({navigation}) => {
 export default function App() {
     return (
         <NavigationContainer initialRouteName="Login" theme={theme}> 
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={({ navigation }) => ({
+                                headerLeft: () => null,
+                                })}
+            >
                 <Stack.Screen name="Login" component={Login} /> 
                 <Stack.Screen name="Register" component={Register}/>
-                <Stack.Screen name="Home" component={HomeScreen}/>
-            </Stack.Navigator>
+                <Stack.Screen name="News" component={HomeScreen}/>
+            </Stack.Navigator> 
         </NavigationContainer>
     );
 }

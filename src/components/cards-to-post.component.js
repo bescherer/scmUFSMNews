@@ -31,13 +31,14 @@ const Item = (props) => { //show the content from post
 
     const saveData = async () => {
         try {
-            if (props.item.url+'async') {
+            if (props.item.link+'async') {
                 await AsyncStorage.removeItem(JSON.stringify(props.item.link+'async')); //remove current data so it doesn't have duplication
                 await AsyncStorage.setItem(JSON.stringify(props.item.link+'async'), JSON.stringify(props.item));
                 setLikedNews(true);
             } else {
                 await AsyncStorage.setItem(JSON.stringify(props.item.link+'async'), JSON.stringify(props.item));
                 setLikedNews(true);
+
             }
         } catch (error) {
             console.log(error);
@@ -46,7 +47,8 @@ const Item = (props) => { //show the content from post
 
     const removeData = async () => { //remove the actual post in view
         try {
-            await AsyncStorage.removeItem(JSON.stringify(props.item.link+'async')); 
+            await AsyncStorage.removeItem(JSON.stringify(props.item.link+'async'));
+            setLikedNews(false);
         } catch (error) {
             console.log(error);
         }
@@ -54,13 +56,13 @@ const Item = (props) => { //show the content from post
 
     return(
         <>
-        {props.item.title? 
-        <StyledCard>
+        {props.item._id? 
+        <StyledCard key={props.item._id}>
         <Card style={theme.card}> 
             <Card.Cover source={{uri : image}} />
             <Card.Actions>
                 <Button style={theme.button} theme={theme} onPress={() => Linking.openURL(props.item.link)} style={{width:'88%'}}>{props.item.title}</Button>
-                <IconButton color={theme.colors.primary} icon={props.liked || likedNews ? "cards-heart" : "heart-outline"} onPress={() => {props.liked ? removeData() : saveData()}}/>             
+                <IconButton color={theme.colors.primary} icon={props.liked? 'delete' : likedNews ? "cards-heart" : "heart-outline"} onPress={() => {props.liked || likedNews ? removeData() : saveData()}}/>             
             </Card.Actions>
         </Card>
         </StyledCard>  
@@ -82,7 +84,7 @@ const CardsToPosts = (props) => {
         
         return (
             
-            <Item item={item} liked={liked}/>
+            <Item item={item} liked={liked} />
         );
 
     };
