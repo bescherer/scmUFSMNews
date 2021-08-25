@@ -1,12 +1,11 @@
-Who we run this:
+<h2>Who we run this:</h2>
 
-Using Metro:
+<h4>Using Metro:</h4>
 
 <code>npm start</code>
 <br>
 <code>react-native run-android</code> 
 
-Using Expo:
-<br>
+<h4>Using Expo:</h4>
 
 <code>expo start</code>
