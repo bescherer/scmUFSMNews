@@ -7,4 +7,5 @@ Using Metro:
 <code>react-native run-android</code> 
 
 Using Expo:
+<br>
 <code>expo start</code>
