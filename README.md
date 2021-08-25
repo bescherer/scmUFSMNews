@@ -8,4 +8,5 @@ Using Metro:
 
 Using Expo:
 <br>
+
 <code>expo start</code>
