@@ -1,4 +1,4 @@
-<h2>Who we run this:</h2>
+<h2>How do we run it</h2>
 
 <h4>Using Metro:</h4>
 
