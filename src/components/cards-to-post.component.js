@@ -26,17 +26,17 @@ const theme = {
 
 const Item = (props) => { //show the content from post
     
-    const image = props.item.image?  props.item.image.thumbnail.contentUrl : 'https://s1.static.brasilescola.uol.com.br/be/vestibular/-59bbd4105e92d.jpg';
+    const image = props.item.media?  props.item.media : 'https://s1.static.brasilescola.uol.com.br/be/vestibular/-59bbd4105e92d.jpg';
     const [likedNews, setLikedNews] = useState(false);
 
     const saveData = async () => {
         try {
             if (props.item.url+'async') {
-                await AsyncStorage.removeItem(JSON.stringify(props.item.url+'async')); //remove current data so it doesn't have duplication
-                await AsyncStorage.setItem(JSON.stringify(props.item.url+'async'), JSON.stringify(props.item));
+                await AsyncStorage.removeItem(JSON.stringify(props.item.link+'async')); //remove current data so it doesn't have duplication
+                await AsyncStorage.setItem(JSON.stringify(props.item.link+'async'), JSON.stringify(props.item));
                 setLikedNews(true);
             } else {
-                await AsyncStorage.setItem(JSON.stringify(props.item.url+'async'), JSON.stringify(props.item));
+                await AsyncStorage.setItem(JSON.stringify(props.item.link+'async'), JSON.stringify(props.item));
                 setLikedNews(true);
             }
         } catch (error) {
@@ -46,7 +46,7 @@ const Item = (props) => { //show the content from post
 
     const removeData = async () => { //remove the actual post in view
         try {
-            await AsyncStorage.removeItem(JSON.stringify(props.item.url+'async')); 
+            await AsyncStorage.removeItem(JSON.stringify(props.item.link+'async')); 
         } catch (error) {
             console.log(error);
         }
@@ -54,15 +54,17 @@ const Item = (props) => { //show the content from post
 
     return(
         <>
+        {props.item.title? 
         <StyledCard>
         <Card style={theme.card}> 
             <Card.Cover source={{uri : image}} />
             <Card.Actions>
-                <Button style={theme.button} theme={theme} onPress={() => Linking.openURL(props.item.url)} style={{width:'88%'}}>{props.item.name}</Button>
+                <Button style={theme.button} theme={theme} onPress={() => Linking.openURL(props.item.link)} style={{width:'88%'}}>{props.item.title}</Button>
                 <IconButton color={theme.colors.primary} icon={props.liked || likedNews ? "cards-heart" : "heart-outline"} onPress={() => {props.liked ? removeData() : saveData()}}/>             
             </Card.Actions>
         </Card>
         </StyledCard>  
+        : null}
         </>
 
    );
@@ -76,15 +78,17 @@ const CardsToPosts = (props) => {
 
 
     const renderItem = ({item}) => {
-
+    
+        
         return (
+            
             <Item item={item} liked={liked}/>
         );
 
     };
     return (    
 
-    <FlatList data={DATA} renderItem={renderItem} keyExtractor={(item) =>  item.url}/> 
+    <FlatList data={DATA} renderItem={renderItem} keyExtractor={(item) =>  item.link}/> 
 
     );
 }

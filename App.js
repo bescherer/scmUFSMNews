@@ -43,13 +43,15 @@ export const HomeScreen = ({navigation}) => {
     );
 }
 
+
+
 export default function App() {
     return (
         <NavigationContainer initialRouteName="Login" theme={theme}> 
             <Stack.Navigator>
                 <Stack.Screen name="Login" component={Login} /> 
                 <Stack.Screen name="Register" component={Register}/>
-                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Home" component={HomeScreen}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

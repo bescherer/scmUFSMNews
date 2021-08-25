@@ -10,37 +10,33 @@ const Login = (props) => {
     })
 
     const [login, setLogin] = useState(false)
+    console.log(user)
 
         useEffect(() => {
-            const getAllKeysUser = async() => {
-                try{
-                    return await AsyncStorage.getAllKeys();
-                }catch(err){
-                    console.log(err);
-                }
-            }
+            
             const getOneUser = async(key) => {
                 try{
-                    return await AsyncStorage.getItem(key);
+                    return await AsyncStorage.getItem(JSON.stringify(key));
                 }catch(err){
                     console.log(err);
                 }
             }
-        
-        getAllKeysUser()
-            .then((res) => {
-                if(res) {
-                    console.log(res)
-                    res.map((res1) => {
-                        getOneUser(res1)
-                            .then((resOneUser) => {
-                                console.log(resOneUser)
-                            })
-                    });
-                }
-            })
-            console.log("aaaaa", user.email, user.password)
-            login ? props.navigation.navigate('Home') : null;
+
+            getOneUser(user.email)
+                .then((resOneUser) => {
+                    console.log(resOneUser)
+                    if (resOneUser) {
+                        const resToObj = JSON.parse(resOneUser); 
+                        if (resToObj.password === user.password) {
+                            props.navigation.navigate('Home')
+                        } else {
+                            alert('Email ou senha inválidos')
+                        }
+                    } else {
+                        alert('Usuário não encontrado')
+                    }
+                })
+   
         }, [login])
 
     

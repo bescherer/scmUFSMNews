@@ -28,7 +28,7 @@ const theme = {
 }
 
 const Home = (props) => {
-    const [data, setData] = useState("");
+    const [data, setData] = useState("Covid");
     const [allNews, setAllNews] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -38,8 +38,7 @@ const Home = (props) => {
     useEffect(() => {
         const callNewsFromApi = async (data) => {
             const body = await getNews(data);
-            return body.value;
-        
+            return body;        
         };
     
         callNewsFromApi(data).
